@@ -1,35 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <script src = "script.js"></script>                               
+  <title>Simple Calculator</title>
 </head>
 <body>
-    
-    <div class="calculator">
-        <input type="text" class="display" id="display" disabled>
-        <div class="buttons">
-            <button class="button operator" data-value="C">C</button>
-            <button class="button operator" data-value="/">/</button>
-            <button class="button operator" data-value="*">*</button>
-            <button class="button operator" data-value="DEL">DEL</button>
-            <button class="button number" data-value="7">7</button>
-            <button class="button number" data-value="8">8</button>
-            <button class="button number" data-value="9">9</button>
-            <button class="button operator" data-value="-">-</button>
-            <button class="button number" data-value="4">4</button>
-            <button class="button number" data-value="5">5</button>
-            <button class="button number" data-value="6">6</button>
-            <button class="button operator" data-value="+">+</button>
-            <button class="button number" data-value="1">1</button>
-            <button class="button number" data-value="2">2</button>
-            <button class="button number" data-value="3">3</button>
-            <button class="button operator" data-value="=">=</button>
-            <button class="button number" data-value="0">0</button>
-            <button class="button number" data-value=".">.</button>
-        </div>
+    <center>
+
+ 
+  <div style="width: 300px; margin: 0; border:3px solid burlywood; padding:20px; ">
+
+     <h2>Calculator</h2>
+  <input type="text" id="result" readonly style="width: 160px;"><br><br>
+  
+  <button onclick="append('1')">1</button>
+  <button onclick="append('2')">2</button>
+  <button onclick="append('3')">3</button>
+  <button onclick="append('+')">+</button><br>
+  
+  <button onclick="append('4')">4</button>
+  <button onclick="append('5')">5</button>
+  <button onclick="append('6')">6</button>
+  <button onclick="append('-')">-</button><br>
+  
+  <button onclick="append('7')">7</button>
+  <button onclick="append('8')">8</button>
+  <button onclick="append('9')">9</button>
+  <button onclick="append('*')">*</button><br>
+  
+  <button onclick="append('0')">0</button>
+  <button onclick="append('.')">.</button>
+  <button onclick="clearResult()">AC</button>
+  <button onclick="append('/')">/</button><br>
+  <button onclick ="clearResult()">DEL</button><br><br>
+  
+  <button onclick="calculate()">=</button>
     </div>
-    <script src="script.js"></script>
+  <script>
+    function append(value) {
+      document.getElementById("result").value += value;
+    }
+
+    function clearResult() {
+      document.getElementById("result").value = ""; `${previousInput} ${currentOperation} ${currentInput}`;
+    }
+
+    function appendOperation(operation) {
+    if (currentInput === '') return;
+    if (previousInput !== '') {
+        calculate(); 
+    }
+    currentOperation = operation;
+    previousInput = currentInput;
+    currentInput = '';
+    document.getElementById('display').value = `${previousInput} ${currentOperation}`;
+}
+
+function calculate() {
+    if (previousInput === '' || currentInput === '') return;
+    let result;
+    let prev = parseFloat(previousInput);
+    let current = parseFloat(currentInput);
+
+    switch (currentOperation) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            if (current === 0) {
+                alert("Cannot divide by zero");
+                return;
+            }
+            result = prev / current;
+            break;
+        default:
+            return;
+    }
+
+    currentInput = result.toString();
+    currentOperation = '';
+    previousInput = '';
+    document.getElementById('display').value = currentInput;
+}
+
+function clearDisplay() {
+    currentInput = '';
+    previousInput = '';
+    currentOperation = '';
+    document.getElementById('display').value = '';
+}
+
+    function calculate() {
+      try {
+        document.getElementById("result").value = eval(document.getElementById("result").value);
+      } catch (e) {
+        alert("Invalid Expression");
+      }
+    }
+  </script>
+  </center>
 </body>
 </html>
